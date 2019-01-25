@@ -80,13 +80,55 @@
 % ################################## QUESTION 1 ##################################
 
 \section{Question 1 (27points): Comparing Search Algorithms}
-\centerfig{1}{../figs/1_graph}
+% \centerfig{1}{../figs/1_graph}
 
 \subsection{Depth-first search}
+\begin{enumerate}[label=(\alph*)]
+    \item What nodes are expanded by the algorithm?
+    \ans{
+        \[\{a, b, c, d, e, f, g, h, i\}\]
+    }
+    \item What path is returned by the algorithm?
+    \ans{
+        \[a->b->c->d->e->f->g->h->i->z\]
+    }
+    \item What is the cost of this path?
+    \ans{
+        64
+    }
+\end{enumerate}
 
 \subsection{Breadth-first search}
+\begin{enumerate}[label=(\alph*)]
+    \item What nodes are expanded by the algorithm?
+    \ans{
+        \[\{a, b, e, c, f, g, d, f, g, h, i\}\]
+    }
+    \item What path is returned by the algorithm?
+    \ans{
+        \[a->e->g->z\]
+    }
+    \item What is the cost of this path?
+    \ans{
+        16
+    }
+\end{enumerate}
 
 \subsection{A$^*$}
+\begin{enumerate}[label=(\alph*)]
+    \item What nodes are expanded by the algorithm?
+    \ans{
+        \[\{a, e, b, g, c, f, d\}\]
+    }
+    \item What path is returned by the algorithm?
+    \ans{
+        \[a->e->g->z\]
+    }
+    \item What is the cost of this path?
+    \ans{
+        16
+    }
+\end{enumerate}
 
 \subsection{Branch-and-bound}
 
@@ -95,35 +137,101 @@
 \begin{enumerate}[label=(\alph*)]
     \item Did BFS and B\&Bfind the optimal solutionfor this graph?
     \item Are BFSand B\&B optimal in general?Explain your answer. 
-    \item Did B\&B expandfewer nodes thanA*? Explain if your answer is true in general for these two algorithms and why.
+    No, BFS is not optimal if the costs of the arcs are different. And B\&B only if 
+    the heuristcs are admissible.
+    \item Did B\&B expandfewer nodes than A*? Explain if your answer is true in general for these two algorithms and why.
 \end{enumerate}
 
 % ################################## QUESTION 2 ##################################
 
 \clearpage
 \section{Question 2 (36points): Uninformed Search: Peg Solitaire}
-\centerfig{1}{../figs/2_solitaire}
-\centerfig{0.8}{../figs/3_solitaire}
+% \centerfig{1}{../figs/2_solitaire}
+% \centerfig{0.8}{../figs/3_solitaire}
 
 \subsection{Represent peg solitaire as a search problem}
 \begin{enumerate}[label=(\alph*)]
     \item How would you represent a node/state?
+    \ans{
+        As a matrix representing the the positions of all the pegs in the board. A peg would 
+        be represented as a $1$, a free hole would be represented as a $0$ and a place 
+        where the peg can not move would be represented by a $-1$.\\ \\ The following matrix 
+        is the representation of the initial state of the game.
+        \[ \left[ 
+        \begin{array}{ccccccc}
+        -1 & -1 & 1 & 1 & 1 & -1 & -1 \\
+        -1 & -1 & 1 & 1 & 1 & -1 & -1 \\
+        1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 0 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+        -1 & -1 & 1 & 1 & 1 & -1 & -1 \\
+        -1 & -1 & 1 & 1 & 1 & -1 & -1 
+        \end{array} 
+        \right]\] 
+    }
     \item In your representation, what is the goal node?
+    \ans{
+        The goal node would have the following represendation.
+        \[ \left[ 
+        \begin{array}{ccccccc}
+        -1 & -1 & 0 & 0 & 0 & -1 & -1 \\
+        -1 & -1 & 0 & 0 & 0 & -1 & -1 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        -1 & -1 & 0 & 0 & 0 & -1 & -1 \\
+        -1 & -1 & 0 & 0 & 0 & -1 & -1 
+        \end{array} 
+        \right]\] 
+    }
     \item How would you representthe arcs?
-    \item How many possibleboard states are there?Note: this is notthe same as the number of “valid” or “reachable” game states, which is a much more challenging problem.
+    \ans{
+        We would use the following notation $ij.i'j'$, being $i$ the row, $j$ the column of 
+        the peg that is moving to the column $i'$ and row $j'$, e.g., an arc with the label 
+        31.33 will represent that a peg in row 3 column 1 will be moved to row 3 column 3.
+    }
+    \item How many possible board states are there?Note: this is notthe same as the number of “valid” or “reachable” game states, which is a much more challenging problem.
+    \ans{
+        There are 33 holes in the board, and the domain of this holes is binary {1,0}, 
+        either there is a peg on the hole or not. So the number of possible states would 
+        be $2^{33}$.
+    }
 \end{enumerate}
 
 \subsection{The search tree:}
 \begin{enumerate}[label=(\alph*)]
     \item Write out the first three levels (counting the root as level 1) of the search tree. (Only label the arcs; labeling the nodes would be too much work).
+    \ans{
+        The following diagram is the representation of how the search tree would look.
+        \centerfig{0.8}{../figs/q2_2_a}
+    }
     \item What can you say about the length of the solution(s)?
+    \ans{
+        The solution must be at level 32, because at every step from node to node, we 
+        lose one peg, we start with 32 at the goal is to get to 1 peg in all the board.
+    }
+
 \end{enumerate}
 
 \subsection{The search algorithm:}
 \begin{enumerate}[label=(\alph*)]
     \item What kind of search algorithm would you use for this problem? Justify your answer
+    \ans{
+        An uninformed algorithm, because we neither have difference in the costs of the paths
+        nor heuristcs.
+    }
     \item Would you use cycle-checking? Justify your answer.
+    \ans{
+        No, you can't undo a movement so there is no posibility for cycles.
+    }
     \item Would you use multiple-path-pruning? Justify your answer.
+    \ans{
+        No, because it is not possible to arrive at the same state with less movements. 
+        We can prove this because at every level the number of pegs is reduced by 1, at 
+        level 1 we have 32 pegs, at level 2 31 pegs, at 3 we have 30 pegs and so on and 
+        so forth. So it is guaranted that they will not be a shorter path to get to any 
+        state.
+    }
 \end{enumerate}
 
 % ################################## QUESTION 3 ##################################
