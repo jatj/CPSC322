@@ -131,15 +131,38 @@
 \end{enumerate}
 
 \subsection{Branch-and-bound}
+\begin{enumerate}[label=(\alph*)]
+    \item What nodes are expanded by the algorithm?
+    \ans{
+        \[\{a, b, c, d, e, f, g, h, i, i, g, h, i, f, g, e, f, g, h, g, h, i\}\]
+    }
+    \item What path is returned by the algorithm?
+    \ans{
+        \[a->e->g->z\]
+    }
+    \item What is the cost of this path?
+    \ans{
+        16
+    }
+\end{enumerate}
 
 \subsection{}
 
 \begin{enumerate}[label=(\alph*)]
-    \item Did BFS and B\&Bfind the optimal solutionfor this graph?
-    \item Are BFSand B\&B optimal in general?Explain your answer. 
-    No, BFS is not optimal if the costs of the arcs are different. And B\&B only if 
-    the heuristcs are admissible.
+    \item Did BFS and B\&B find the optimal solution for this graph?
+    \ans{
+        Yes, both algorithm found the best path $a->e->g->z$
+    }
+    \item Are BFS and B\&B optimal in general? Explain your answer. 
+    \ans{
+        No, BFS is not optimal if the costs of the arcs are different. And B\&B only if 
+        the heuristcs are admissible.
+    }
     \item Did B\&B expandfewer nodes than A*? Explain if your answer is true in general for these two algorithms and why.
+    \ans{
+        No, in general B\&B will expand more nodes than A*, because even if it found a solution, it 
+        will keep searching in the graph for shorter solutions.
+    }
 \end{enumerate}
 
 % ################################## QUESTION 2 ##################################
@@ -242,12 +265,31 @@
 \subsection{Represent this as a search problem}
 \begin{enumerate}[label=(\alph*)]
     \item How would you represent a node/state?
+    \ans{
+        As an array of $16$ stacks, each stack represent a zone in the board, 4 free cells, 4 foundations 
+        and 8 columns. The free cells stack will have a maximum size of 1.
+    }
     \item In your representation, what is the goal node?
-    \item How would you representthe arcs?
+    \ans{
+        The goal node will be when all free cells and columns stacks are empty, and each of the 4 foundation 
+        stacks are filled with ascending order cards of the same suit per stack.
+    }
+    \item How would you represent the arcs?
+    \item \ans{
+        The arcs will be represented with the information of the movement, from which stack we move the 
+        top card to which stack, i.e., column1\_freecell1 or column1\_heartsFoundation.
+    }
 \end{enumerate}
 
 \subsection{}
-Give  an  admissible  heuristicfor  this  problem;  explain  why  your  heuristic  is  admissible. More points will be given for tighter lower bounds; for example, h=0 is a trivial (and useless) heuristic, and thus it is not acceptable.
+Give  an  admissible  heuristicfor  this  problem;  explain  why  your  heuristic  is  admissible. More points will be given for tighter lower bounds; for example, h=0 is a trivial (and useless) heuristic, and thus it is not acceptable. \\
+\ans{
+    An admissible heuristic for this problem will be the number of cards that are not in the foundation 
+    stacks, because at least the solution has to make those number of movements to arrive to the solution.
+    This is pretty optimistic because it is considering that on each move you can send one card to the 
+    foundation, but it still being an admissible heuristic because it will never be an overestimate.
+}
+
 
 % ################################## QUESTION 4 ##################################
 
@@ -255,20 +297,63 @@ Give  an  admissible  heuristicfor  this  problem;  explain  why  your  heuristi
 \section{Question 4 (15points) Modified Heuristics}
 
 \subsection{Reduce h(n), trying in three different ways:}
+\begin{enumerate}[label=(\alph*)]
+    \item Can A* still find the optimal path? 
+    \ans{
+        Yes, in all the tests when reducing $h(n)$ the algorithm succesfuly returned the optimal path.
+    }
+    \item Is the efficiency of A* increased or reduced? 
+    \ans{
+        When reducing the $h(n)$s of the nodes that are not in the path the efficiency is reduced, on 
+        the contrary if the $h(n)$s of the nodes that are in the path the efficiency is increased. If 
+        we reduced the $h(n)$s on all the nodes in the graph A* acts in the same way when the $h(n)$s 
+        were not reduced.
+    }
+    \item Try to draw a more general conclusion regarding the changes in efficiency and optimality. 
+    \ans{
+        If the heuristcs in the optimal path are reduced the algorithm will be more efficient in finding 
+        the optimal path.
+    }
+\end{enumerate}
 
 \subsection{Set h(n) as the exact distance from n to a goal}
 To do this, you should add the costs of arcs on the optimal path from every node to the goal node, and set the sum as the heuristic function of the node. 
 \begin{enumerate}[label=(\alph*)]
     \item Can A* still find the optimal path? 
+    \ans{
+        Yes A* still finds the optimal path.
+    }
     \item Is the efficiency of A* increased or reduced? 
+    \ans{
+        The efficiency of A* is increased.
+    }
     \item Try to draw a more general conclusion regarding the changes in efficiency and optimality. 
+    \ans{
+        By making the $h(n)$s of each nodes as the exact distance from n to a goal, we are setting the 
+        perfect heuristic for the graph. So it will find the optimal solution in the quickiest way possible.
+        Each iteration it will expand the node with the lest distance to the solution.
+    }
 \end{enumerate}
 
 \subsection{Increase h(n), also trying in three different ways}
 \begin{enumerate}[label=(\alph*)]
     \item When can A* still find the optimal path?
+    \ans{
+        Yes, even if we increased the $h(n)$s of the nodes in the solution path, it was still able 
+        to find the optimal path to the goal.
+    }
     \item When is the efficiency of A* improved or reduced? 
+    \ans{
+        The efficiency of A* is remarkably reduced when the $h(n)$s of the nodes in the solution path 
+        are increased. When all $h(n)$s of the graph are increased the algorithm acts as when the $h(n)$s 
+        were not increased. Lastly if we increase the $h(n)$s in the nodes that are not in the solution the 
+        algorithm increases its efficiency.
+    }
     \item Try to draw a more general conclusion regarding the changes in efficiency and optimality.
+    \ans{
+        Increasing the value of the $h(n)$s acts has the opposite effect of reducing the $h(n)$s in the 
+        \textbf{4.1} excercise.
+    }
 \end{enumerate}
 
 \end{document}
