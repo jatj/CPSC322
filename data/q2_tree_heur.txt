@@ -1,0 +1,157 @@
+	H=4	G=4failure
+		G=3	F=4failure
+			F=3failure
+			F=2	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1	D=4failure
+					D=3	C=4	B=4failure
+							B=3	A=4failure
+								A=3solution
+								A=2failure
+								A=1failure
+							B=2failure
+							B=1	A=4failure
+								A=3solution
+								A=2failure
+								A=1failure
+						C=3failure
+						C=2failure
+						C=1failure
+					D=2failure
+					D=1failure
+			F=1	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2failure
+				E=1failure
+		G=2	F=4failure
+			F=3	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2failure
+				E=1failure
+			F=2failure
+			F=1	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2failure
+				E=1failure
+		G=1	F=4failure
+			F=3	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2failure
+				E=1failure
+			F=2	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1	D=4failure
+					D=3	C=4failure
+						C=3failure
+						C=2failure
+						C=1failure
+					D=2failure
+					D=1failure
+			F=1failure
+	H=3	G=4failure
+		G=3failure
+		G=2	F=4	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1failure
+			F=3failure
+			F=2failure
+			F=1	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2	D=4	C=4failure
+						C=3	B=4failure
+							B=3failure
+							B=2	A=4failure
+								A=3failure
+								A=2solution
+								A=1failure
+							B=1failure
+						C=2failure
+						C=1failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=1failure
+		G=1	F=4	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1failure
+			F=3failure
+			F=2	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1failure
+			F=1failure
+	H=2	G=4failure
+		G=3failure
+		G=2failure
+		G=1	F=4	E=4failure
+				E=3	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=2failure
+				E=1	D=4failure
+					D=3	C=4failure
+						C=3failure
+						C=2	B=4failure
+							B=3	A=4failure
+								A=3failure
+								A=2failure
+								A=1solution
+							B=2failure
+							B=1failure
+						C=1failure
+					D=2failure
+					D=1failure
+			F=3	E=4	D=4failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=3failure
+				E=2	D=4	C=4failure
+						C=3failure
+						C=2failure
+						C=1failure
+					D=3failure
+					D=2failure
+					D=1failure
+				E=1failure
+			F=2failure
+			F=1failure
+	H=1	G=4failure
+		G=3failure
+		G=2failure
+		G=1failure

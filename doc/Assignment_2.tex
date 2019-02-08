@@ -83,21 +83,54 @@
 
 \begin{enumerate}[label=(\alph*)]
     \item Represent this problem as a CSP
-    \ans{
-    }
+    \begin{enumerate}\color{ans}
+        \item \textbf{Variables: }
+        \[
+            \{ hc, bh, ra, gd \}
+        \]
+        \item \textbf{Domains: }
+        \[
+            \{ (0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2) \}
+        \]
+        \item \textbf{Constraints: }
+        \[
+            \{ hc \neq ra, hc \neq dg, hc \neq bh, bh \neq ra, bh \neq gd, ra \neq gd,
+        \]
+        \[
+            hc \neq (0,0), bh \neq (0,0), ra \neq (0,0), gd \neq (0,0),
+        \]
+        \[
+            hc \neq (1,2), bh \neq (1,2), ra \neq (1,2), gd \neq (1,2),
+        \]
+        \[
+            !Close(hc,(0,0)), !Close(bh,(0,0)), !Close(hc,gd), !Close(bh,gd)
+        \]
+        \[
+            Close(ra,(1,2)), Close(hc,ra), Close(bh,ra) \}
+        \]
+        \ans{
+            For our constraint definitions we use the following functions:
+        }
+        \begin{tabbing}
+        xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill \color{ans}
+        {\bf Function} {\em Close} ($A,B$)\\ [0pt \color{ans}]
+        \> // Check if $|| A - B ||_1$ == 1, the Manhattan distance must be 1\\
+        \> return $( |A[0] - B[0]| + |A[1] - B[1]| ) == 1$ \\
+        \end{tabbing}
+    \end{enumerate}
     \item Draw a constraing graph for this problem
-    \ans{
-    }
+    \centerfig{0.8}{../figs/q1.png}
 \end{enumerate}
 
 % ################################## QUESTION 2 ##################################
 \clearpage
 \section{CSP - Search}
 \begin{enumerate}[label=(\alph*)]
-    \item Show how search can be used to solve this problem, using the variable ordering A, B, C, D, E, F, G, H.
+    \item Show how search can be used to solve this problem, using the variable ordering A, B, C, D, E, F, G, H. \\
     \ans{
+        See \hyperref[appendix:CSP Search]{\textbf{Appendix A}} for the implementation of \texttt{CSP}.\\
     }
-    \item Is it  possible  to  generatea  smaller  tree? 
+    \item Is it  possible  to  generate a  smaller  tree? 
     \ans{
     }
     \item Explain why you expect the heuristic in part (b) to be good
@@ -152,5 +185,15 @@
     \ans{
     }
 \end{enumerate}
+
+\bookmarksetup{startatroot}
+
+\appendix
+
+\section{Appendix: CSP as Search implementation}
+\label{appendix:CSP Search}
+\begin{center}
+    \lstinputlisting{../code/q2.py}
+\end{center}
 
 \end{document}
