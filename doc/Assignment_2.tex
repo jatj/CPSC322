@@ -126,15 +126,50 @@
 \clearpage
 \section{CSP - Search}
 \begin{enumerate}[label=(\alph*)]
-    \item Show how search can be used to solve this problem, using the variable ordering A, B, C, D, E, F, G, H. \\
+    \item Show how search can be used to solve this problem, using the variable ordering A, B, C, D, E, F, G, H. \\ 
     \ans{
-        See \hyperref[appendix:CSP Search]{\textbf{Appendix A}} for the implementation of \texttt{CSP}.\\
+        Number of fails: 1278 \\
+        Number of solutions: 4 \\
+        Solutions:
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+            \hline
+            {A} & {B} & {C} & {D} & {E} & {F} & {G} & {H} \\
+            \hline
+            \hline
+            3 & 3 & 4 & 3 & 1 & 2 & 3 & 4 \\
+            \hline
+            3 & 1 & 4 & 3 & 1 & 2 & 3 & 4 \\
+            \hline
+            2 & 2 & 3 & 4 & 2 & 1 & 2 & 3 \\
+            \hline
+            1 & 3 & 2 & 3 & 1 & 4 & 1 & 2 \\
+            \hline
+        \end{tabular}
+        \end{center}
     }
-    \item Is it  possible  to  generate a  smaller  tree? 
     \ans{
+        See \hyperref[appendix:CSP Search]{\textbf{Appendix A}} for the implementation of this \texttt{CSP}.\\
+    }
+    \item Is it  possible  to  generate a  smaller  tree? \\
+    \ans{
+        Yes by selecting in different order the variables we assign. \\ \\
+        The heuristic we applied to our variable selection, was use first the variables that appear in 
+        more constraints. By using this heuristic the tree had only \textbf{153} failing branches which is 
+        much better than \textbf{1278} from the previous approach with alphabetical ordering. \\ \\
+        The new order of the variable selection is: \\
+        \[
+            \{H, G, F, E, D, C, B, A\}
+        \]
     }
     \item Explain why you expect the heuristic in part (b) to be good
     \ans{
+        The branches in the search tree stop being searched if they are a failure or a solution, for this 
+        problem we know that a solution will always be at the end on the tree, so we need to improve the 
+        chance of having failures on shallow branches this will prevent us from doing unncessary processing 
+        and will output a small tree. \\ \\
+        By using the heuristic of assigning a value first to the variables that appear the most in 
+        the constraints, we increase the chances for having a failing consistency check.
     }
 \end{enumerate}
 
@@ -143,13 +178,60 @@
 \section{CSP - Arc Consistency}
 \begin{enumerate}[label=(\alph*)]
     \item Show how arc consistency can be used to solve the scheduling problem in Question 2
-    \ans{
+    \centerfig{0.7}{../figs/q3_a_1.jpeg}
+    {
+        \begin{center}\color{ans}
+            Initial state
+        \end{center}
+    }
+    \centerfig{0.7}{../figs/q3_a_2.jpeg}
+    {
+        \begin{center}\color{ans}
+            Step 1: arc (H, G<H) was selected, 1 was removed from the domain of H.
+        \end{center}
+    }
+    \centerfig{0.7}{../figs/q3_a_3.jpeg}
+    {
+        \begin{center}\color{ans}
+            Step 2: arc (G, G<H) was selected, 4 was removed from the domain of G.
+        \end{center}
+    }
+    \centerfig{0.7}{../figs/q3_a_4.jpeg}
+    {
+        \begin{center}\color{ans}
+            Step 3: arc (C, |G-C|=1) was selected, nothing was removed.
+        \end{center}
+    }
+    \centerfig{0.7}{../figs/q3_a_2.jpeg}
+    {
+        \begin{center}\color{ans}
+            Step 4: arc (G, |G-C|=1) was selectec, nothing was removed.
+        \end{center}
+    }
+    \centerfig{0.7}{../figs/q3_a_6.jpeg}
+    {
+        \begin{center}\color{ans}
+            Final state
+        \end{center}
     }
     \item Use domain splitting to solve this problem
-    \ans{
+    \centerfig{0.8}{../figs/q3_b.png}
+    {
+        \begin{center}\color{ans}
+            Domain splitting graph
+        \end{center}
     }
-    \item Constraint satisfaction problems can become extremely large and complex.
+    \item Constraint satisfaction problems can become extremely large and complex. Given the choice between DFS with pruning and arc consistency with domain splitting, what (qualitatively) is the tradeoff between the two methods in terms of time/space complexity? \\ \\
     \ans{
+        DFS with pruning is gonna have less space complexity than arc consistency with domain splitting, 
+        because on DFS at worst you keep track of the value assigned to all eight variables, whereas with 
+        arc consistency with domain splitting we have to track the domain of every variable separately. \\ \\
+        On the other hand the domain splitting method works faster and arrive to a solution in fewer 
+        steps rather than using DFS. We can recall that in the subsection 2.a, the implementation of 
+        dfs with pruning had to do \textbf{1278} failing branches to get all the solutions, even by 
+        using a heuristic for selecting the variable ordering in subsection 2.b got \textbf{153} failing 
+        branches. The domain splitting method only had \textbf{5} failing branches as we can see on the 
+        image above.
     }
 \end{enumerate}
 
@@ -187,7 +269,7 @@
 \end{enumerate}
 
 \bookmarksetup{startatroot}
-
+\clearpage
 \appendix
 
 \section{Appendix: CSP as Search implementation}

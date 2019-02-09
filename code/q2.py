@@ -1,3 +1,5 @@
+import sys
+# Helper class to represent a variable assignment
 class Node:
     def __init__(self, name, value=None, depth = 0, values = []):
         self.adjacents = []
@@ -7,21 +9,22 @@ class Node:
         self.values = values.copy()
         if depth > 0:
             self.values[depth-1] = value
-
+    # Returns the name and value of the node, i.e., A = 1
     def description(self):
         if self.depth == 0:
             return ""
         return "{}={}".format(self.name,self.value)
-
+    # Links node to another one
     def link(self, node):
         self.adjacents.append(node)
 
-
-def generateTree(useHeuristic = False, file = None):
+"""
+ Solve the CSP
+"""
+def solveCSP(useHeuristic = False, file = None):
+    # Problem configuration
     Domain = [1,2,3,4]
     varNames = ['A','B','C','D','E','F','G','H']
-    mapVarNames = {'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7}
-    varN = len(varNames)
     constraints = {
         'AG':lambda A, G : A >= G,
         'AH':lambda A, H : A < H,
@@ -41,6 +44,9 @@ def generateTree(useHeuristic = False, file = None):
         'DF':lambda D, F : D != F,
         'EF':lambda E, F : abs(E-F) % 2 == 1,
     }
+    mapVarNames = {'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7}
+    varN = len(varNames)
+    
     # Helper that check if constraints are valid for the provided values
     def checkConstraints(values):
         for key, constraint in constraints.items():
@@ -54,7 +60,7 @@ def generateTree(useHeuristic = False, file = None):
                 return False
         return True
     
-    # Helper to change the order we pick the variables
+    # Helper that generates a new order for the variables to assign
     def varNamesByHeuristic():
         heuristics = {}
         newNames = []
@@ -73,34 +79,38 @@ def generateTree(useHeuristic = False, file = None):
 
         return newNames, mapNewNames
 
-    root = Node("Root", values=[None]*8)
+    # CSP Solve setup
+    root = Node("Root", values=[None]*varN)
     frontier = [root]
     solutions = []
     fails = 0
+    # For formatting correctly the tree structure
     newLine = False
+    # If heurisitc is needed, generate new ordering for the variables
     if useHeuristic:
         varNames,mapVarNames = varNamesByHeuristic()
+    # If [file] is provided, the tree description will be written on a file with the name [file]
     f = None
     if file != None:
         f = open(file,"w+")
 
     while(len(frontier)>0):
         n = frontier.pop()
-        # Print the node description (Variable=Value)
-        if n.depth > 0:
-            nTabs = 1
-            if newLine:
-                nTabs = n.depth
-                newLine = False
-            description = "{}{}".format("\t"*nTabs, n.description())
-            
-            if file != None:
-                f.write(description)
-            else:
-                print(description, end="")
+        # Format the node description (Variable=Value) 
+        nTabs = 1
+        if newLine:
+            nTabs = n.depth
+            newLine = False
+        description = "{}{}".format("\t"*nTabs, n.description())
+        # Write to terminal or the file
+        if file != None:
+            f.write(description)
+        else:
+            print(description, end="")
         
         # Check if the current assigned variables are valid with constraints
         if not checkConstraints(n.values):
+            # Write to terminal or the file
             if file != None:
                 f.write("failure\n")
             else:
@@ -111,6 +121,7 @@ def generateTree(useHeuristic = False, file = None):
 
         # Check if we hit a solution
         if n.depth == varN:
+            # Write to terminal or the file
             if file != None:
                 f.write("solution\n")
             else:
@@ -119,7 +130,7 @@ def generateTree(useHeuristic = False, file = None):
             newLine = True
             continue
 
-        # Add next variable with all domains
+        # Add to frontier the next variable, assigning every posible domain value
         for i in range(len(Domain)):
             new = Node(varNames[n.depth], Domain[i], n.depth+1, n.values)
             n.link(new)
@@ -128,8 +139,12 @@ def generateTree(useHeuristic = False, file = None):
     return varNames, solutions, fails
 
 if __name__ == "__main__":
-    # variables, solutions, fails = generateTree(False, "../data/q2_tree.txt")
-    variables, solutions, fails = generateTree(True, "../data/q2_tree_heur.txt")
+    if len(sys.argv)>1:
+        # Use the heuristic for variable selection
+        variables, solutions, fails = solveCSP(True, "../data/q2_tree_h.txt")
+    else:
+        # Use alphabetical ordering for variable selection
+        variables, solutions, fails = solveCSP(False, "../data/q2_tree.txt")
     varN = len(variables)
 
     print("\nNumber of fails: {}".format(fails))

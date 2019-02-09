@@ -1,4 +1,4 @@
-	H=4	G=4failure
+		H=4	G=4failure
 		G=3	F=4failure
 			F=3failure
 			F=2	E=4failure
