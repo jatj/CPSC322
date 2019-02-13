@@ -241,31 +241,107 @@
 \begin{enumerate}[label=(\alph*)]
     \item For one particular run, make SLS select any variable that is involved in an unsatisfied constraint, and select a value that results in the minimum number of unsatisfied constraints. Report the initialized values.  At each step, report which variable is changed, its new value, and the resulting number of unsatisfied arcs. (You only need to do this for 5 steps).
     \ans{
+        \begin{center}
+            \begin{figure}[htp]
+            \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+                \centerfig{1}{../figs/q4_a_1.png}
+            \end{subfigure}
+            %
+            \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+                \centerfig{1}{../figs/q4_a_2.png}
+            \end{subfigure}
+            \end{figure}
+        \end{center}
+        \textbf{Steps:}
+        \begin{enumerate}[label=(\arabic*)]
+            \item Variable A changes value to 1, 14 unsatisfied arcs.
+            \item Variable D changes value to 1, 14 unsatisfied arcs.
+            \item Variable C changes value to 3, 12 unsatisfied arcs.
+            \item Variable D changes value to 4, 10 unsatisfied arcs.
+            \item Variable D changes value to 1, 12 unsatisfied arcs.
+        \end{enumerate}
+        \textbf{Final state:}
+        \centerfig{0.8}{../figs/q4_a_3.png}
     }
+    \clearpage
     \item Using batch runs, compare and explain the result of the following settings:
     \begin{enumerate}[label=(\roman*)]
-        \item Select a variable involved in the maximum number of unsatisfied constraints, and the best value.
+        \item Select a variable involved in the maximum number of unsatisfied constraints, and the best value.\\
         \ans{
+            If we select the best variable (Maximum amount of constraints) and the best value 
+            (Maximum constraints solved) the algorithm is going to get stuck $50\%$  of the find 
+            and don’t find a solution. This is because the solution can get stuck in a local minimum. 
+            If a solution is found, in the majority of the cases it will be before step 25.
         }
-        \item Select any variable that is involved in unsatisfied constraints, and the best value.
+        \centerfig{0.8}{../figs/q4_b_1.png}
+        \item Select any variable that is involved in unsatisfied constraints, and the best value.\\
         \ans{
+            This method is slightly less efficient than using the node with the most amount of 
+            constraints when it finds a solution, but this algorithm will always find a solution.
         }
-        \item Select a variable at random, and the best value.
+        \centerfig{0.8}{../figs/q4_b_2.png}
+        \item Select a variable at random, and the best value.\\
         \ans{
-        }
-        \item A probabilistic mix of i. and ii.Try a few probabilities and report on the best one you find
+            This method is very inefficient compared to the previous methods used, it might 
+            take a large number of steps before finding a solution.
+        } 
+        \centerfig{0.8}{../figs/q4_b_3.png}
+        \item A probabilistic mix of i. and ii.Try a few probabilities and report on the best one you find\\
         \ans{
+            We found that the best results are achieved when you use the best node around $40\% – 60\%$ 
+            of the time. For this comparison we select $50\%$ of the time the best node and $50\%$ a random 
+            node with unsatisfied constraints. The results found where that the efficiency is between method 
+            1 and method 2 and this hybrid method will always find a solution.
         }
+        \centerfig{0.8}{../figs/q4_b_4.png}
     \end{enumerate}
-    \item Pick one of the methods(ii)-(iv)from part (b) and run it repeatedly (5 runs should be enough, but you may do more runs if you wish). State which method you chose. Give a screenshot of the results; then think about, describe and explain whatyou observe.
+    \clearpage
+    \item Pick one of the methods(ii)-(iv)from part (b) and run it repeatedly (5 runs should be enough, but you may do more runs if you wish). State which method you chose. Give a screenshot of the results; then think about, describe and explain whatyou observe.\\
     \ans{
+        Results are consistent even though we are choosing random node with unsatisfied constraints, 
+        this is probably because even though we choose a random node, we are always choosing the value 
+        that will try to satisfy the maximum amount of constraints.
     }
-    \item How important is it to choose the value that results in the fewest unsatisfied constraints as opposed to choosing a value at random? Justify your answer with evidence.
+    \begin{center}
+        \begin{figure}[htp]
+        \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+            \centerfig{1}{../figs/q4_c_1.png}
+        \end{subfigure}
+        %
+        \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+            \centerfig{1}{../figs/q4_c_2.png}
+        \end{subfigure}
+        \end{figure}
+    \end{center}
+    \item How important is it to choose the value that results in the fewest unsatisfied constraints as opposed to choosing a value at random? Justify your answer with evidence.\\
     \ans{
+        If we don’t select the best value then our algorithm will rely just on randomness to find a 
+        solution, it will greatly impact efficiency and completeness. As evidence we provide a graph 
+        comparing method 2(purple) and just choosing a random value. We can not only see that method 2 
+        is far more efficient, but also that choosing random values will greatly decrease our probability 
+        of success.
     }
-    \item For the best variable/best value method from part(b), allow random resets (for example, after 50 steps). Give a screenshot comparing the results to what happens if random resets are not allowed, and explain how this affects the performance of the algorithm, and why.
+    \centerfig{0.8}{../figs/q4_c_3.png}
+    \item For the best variable/best value method from part(b), allow random resets (for example, after 50 steps). Give a screenshot comparing the results to what happens if random resets are not allowed, and explain how this affects the performance of the algorithm, and why.\\
     \ans{
+        If we allow random restarts at step 50 then we let the algorithm to get unstuck from local minima. 
+        On the graph on the left where we have random restarts enabled we can see that efficiency starts 
+        to stagnate at around step 40, then a random restart occurs, and our algorithm can continue 
+        finding a solution. We can probably decrease the step in where it restarts to improve efficiency. 
+        If we don’t have random restarts, then the algorithm would not find a solution every time as we 
+        can see in the right graph.
     }
+    \begin{center}
+        \begin{figure}[htp]
+        \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+            \centerfig{1}{../figs/q4_c_4.png}
+        \end{subfigure}
+        %
+        \begin{subfigure}[b]{0.5\textwidth} \color{ans}
+            \centerfig{1}{../figs/q4_c_5.png}
+        \end{subfigure}
+        \end{figure}
+    \end{center}
 \end{enumerate}
 
 \bookmarksetup{startatroot}
