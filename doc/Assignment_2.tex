@@ -86,7 +86,7 @@
     \begin{enumerate}\color{ans}
         \item \textbf{Variables: }
         \[
-            \{ hc, bh, ra, gd \}
+            \{ hc \text{ (Housing complex)}, bh \text{ (Big Hotel)}, ra \text{ (Recreation Area)}, gd \text{ (Garbage dump)}\}
         \]
         \item \textbf{Domains: }
         \[
@@ -113,7 +113,7 @@
         }
         \begin{tabbing}
         xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill \color{ans}
-        {\bf Function} {\em Close} ($A,B$)\\ [0pt \color{ans}]
+        {\bf Function} {\em Close} ($A,B$) // Returns true if the A and B coordinates share an edge \\ [0pt \color{ans}]
         \> // Check if $|| A - B ||_1$ == 1, the Manhattan distance must be 1\\
         \> return $( |A[0] - B[0]| + |A[1] - B[1]| ) == 1$ \\
         \end{tabbing}
@@ -187,25 +187,25 @@
     \centerfig{0.7}{../figs/q3_a_2.jpeg}
     {
         \begin{center}\color{ans}
-            Step 1: arc (H, G<H) was selected, 1 was removed from the domain of H.
+            Step 1: arc $(H, G<H)$ was selected, 1 was removed from the domain of H.
         \end{center}
     }
     \centerfig{0.7}{../figs/q3_a_3.jpeg}
     {
         \begin{center}\color{ans}
-            Step 2: arc (G, G<H) was selected, 4 was removed from the domain of G.
+            Step 2: arc $(G, G<H)$ was selected, 4 was removed from the domain of G.
         \end{center}
     }
     \centerfig{0.7}{../figs/q3_a_4.jpeg}
     {
         \begin{center}\color{ans}
-            Step 3: arc (C, |G-C|=1) was selected, nothing was removed.
+            Step 3: arc $(C, |G-C|=1)$ was selected, nothing was removed.
         \end{center}
     }
     \centerfig{0.7}{../figs/q3_a_2.jpeg}
     {
         \begin{center}\color{ans}
-            Step 4: arc (G, |G-C|=1) was selectec, nothing was removed.
+            Step 4: arc $(G, |G-C|=1)$ was selectec, nothing was removed.
         \end{center}
     }
     \centerfig{0.7}{../figs/q3_a_6.jpeg}
