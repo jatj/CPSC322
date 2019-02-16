@@ -68,7 +68,7 @@
 
 \begin{document}
 
-\title{CPSC 322 Assignment 1}
+\title{CPSC 322 Assignment 2}
 \author{
     Jose Abraham Torres Juarez - 79507828 \\
     Gustavo Martin - 62580121
@@ -162,14 +162,15 @@
             \{H, G, F, E, D, C, B, A\}
         \]
     }
-    \item Explain why you expect the heuristic in part (b) to be good
+    \item Explain why you expect the heuristic in part (b) to be good \\
     \ans{
         The branches in the search tree stop being searched if they are a failure or a solution, for this 
         problem we know that a solution will always be at the end on the tree, so we need to improve the 
-        chance of having failures on shallow branches this will prevent us from doing unncessary processing 
-        and will output a small tree. \\ \\
+        chance of having constraint failures on shallow branches, this will prevent us from doing unncessary 
+        processing and will output a small tree. \\ \\
         By using the heuristic of assigning a value first to the variables that appear the most in 
-        the constraints, we increase the chances for having a failing consistency check.
+        the constraints, we increase the number of constraints checked for every variable assignment which 
+        also increases the chances of having a failing consistency check.
     }
 \end{enumerate}
 
@@ -205,7 +206,7 @@
     \centerfig{0.7}{../figs/q3_a_2.jpeg}
     {
         \begin{center}\color{ans}
-            Step 4: arc $(G, |G-C|=1)$ was selectec, nothing was removed.
+            Step 4: arc $(G, |G-C|=1)$ was selected, nothing was removed.
         \end{center}
     }
     \centerfig{0.7}{../figs/q3_a_6.jpeg}
@@ -298,7 +299,7 @@
     \clearpage
     \item Pick one of the methods(ii)-(iv)from part (b) and run it repeatedly (5 runs should be enough, but you may do more runs if you wish). State which method you chose. Give a screenshot of the results; then think about, describe and explain whatyou observe.\\
     \ans{
-        Results are consistent even though we are choosing random node with unsatisfied constraints, 
+        We chose method (ii). Results are consistent even though we are choosing random node with unsatisfied constraints, 
         this is probably because even though we choose a random node, we are always choosing the value 
         that will try to satisfy the maximum amount of constraints.
     }
@@ -334,11 +335,19 @@
     \begin{center}
         \begin{figure}[htp]
         \begin{subfigure}[b]{0.5\textwidth} \color{ans}
-            \centerfig{1}{../figs/q4_c_4.png}
+            \centerfig{1}{../figs/q4_c_4.png}{
+                \begin{center}
+                    Random restarts
+                \end{center}
+            }
         \end{subfigure}
         %
         \begin{subfigure}[b]{0.5\textwidth} \color{ans}
-            \centerfig{1}{../figs/q4_c_5.png}
+            \centerfig{1}{../figs/q4_c_5.png}{
+                \begin{center}
+                    No random restarts
+                \end{center}
+            }
         \end{subfigure}
         \end{figure}
     \end{center}
