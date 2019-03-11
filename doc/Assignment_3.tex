@@ -1,0 +1,165 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{algorithm2e} % pseudo-code
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{bookmark}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage[procnames]{listings}
+\usepackage{amssymb}
+
+\def\rubric#1{\gre{Rubric: \{#1\}}}{}
+
+% Colors
+\definecolor{blu}{rgb}{0,0,1}
+\def\blu#1{{\color{blu}#1}}
+\definecolor{gre}{rgb}{0,.5,0}
+\def\gre#1{{\color{gre}#1}}
+\definecolor{red}{rgb}{1,0,0}
+\def\red#1{{\color{red}#1}}
+\definecolor{ans}{rgb}{0,.5,0}%{0.545,0.27,0.074}
+\def\ans#1{{\color{ans}#1}}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\def\norm#1{\|#1\|}
+
+% Configuration
+\usepackage[font={color=ans,bf},figurename=Fig.,labelfont={it}]{caption}
+\lstset{
+    language=Python, 
+    basicstyle=\ttfamily\small, 
+    keywordstyle=\color{keywords},
+    commentstyle=\color{comments},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    identifierstyle=\color{green},
+    procnamekeys={def,class}
+}
+
+% Math
+\def\R{\mathbb{R}}
+\def\argmax{\mathop{\rm arg\,max}}
+\def\argmin{\mathop{\rm arg\,min}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\alignStar}[1]{\begin{align*}#1\end{align*}}
+\def\half{\frac 1 2}
+\def\cond{\; | \;}
+
+% LaTeX
+\newcommand{\fig}[2]{\includegraphics[width=#1\textwidth]{#2}}
+\newcommand{\centerfig}[2]{\begin{center}\includegraphics[width=#1\textwidth]{#2}\end{center}}
+\newcommand{\matCode}[1]{\lstinputlisting[language=Matlab]{a2f/#1.m}}
+\def\items#1{\begin{itemize}#1\end{itemize}}
+\def\enum#1{\begin{enumerate}#1\end{enumerate}}
+
+
+\begin{document}
+
+\title{CPSC 322 Assignment 3}
+\author{
+    Jose Abraham Torres Juarez - 79507828 \\
+    Gustavo Martin - 62580121
+}
+\date{}
+\maketitle
+\vspace{-2em}
+
+% ################################## QUESTION 1 ##################################
+
+\section{Question 1 [35 points]: Heuristics in STRIPS: a video game example}
+Assume we want to write an automated planner for a very simple video game: we have a world of 10 different locations, arranged horizontally as shown below. There is a game agent that wants to end up in location 10. \\ \\
+There can be a monster in each of positions 3 and 9, and the agent cannot move to these locations when there is a monster there. The agent has a weapon that is either charged or uncharged, and there are new weapon charges at locations 1 and 4. The following actions are available to the agent: \\
+\begin{enumerate}
+    \item the action “moveRight” increases our agent’s location by 1 (up to 10),
+    \item the action “moveLeft” decreases the location by 1 (down to 1).
+    \item the action “pickUp” allows the agent to pick up a charge if it is at the charge’s location. This will charge the agent’s weapon (whether or not it is already charged) and remove the charge from its location.
+    \item The action “fire” removes every monster whose location differs from the agent’s current location by 1 and completely discharges the agent’s weapon.
+\end{enumerate}
+First, we will write this planning problem in STRIPS notation. STRIPS does not allow us to parameterize actions by the current state because the effects of actions need to be constant, they cannot depend on the agent’s state. Thus we cannot write an action “move-right” parameterized by location, with “Loc = Previous-Loc+1” as an effect. Instead, we have to make actions “move righti”, “move lefti”, “pickupi”, and “firei” for i = 1, ..., 10, with each of these actions only being applicable at location i (similar with what was done for the actions move-clockwise and move-counter-clockwise in the delivery robot examples discussed in class).
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{4 points} Define the STRIPS features (variables) and their domains for this problem. The agent needs to keep track of where it is, whether there are monsters at locations 3 and 9, whether the agent’s weapon is charged, and whether each of the two charges is available. To facilitate answering subquestions (h)-(j) (where you will have to apply the ignore-delete-list heuristics), you should define all your features as Boolean variables; and you should define these boolean variables such that the agent would prefer they be true. Please refer to the explanation provided before subquestion (h) for more information.
+    \item \textbf{8 points} Give the STRIPS representation of the actions for location 4 (“moveRight4”, “moveLeft4”, pickUp4, and fire4).
+    \item \textbf{6 points} Suppose that the agent’s goal is to be in location number 10, and its start state is at location 8, with monsters occupying locations 3 and 9, the weapon charged, and charges in locations 1 and 4. Draw a part of the search space that includes the optimal plan (i.e. the optimal solution path from start state to a goal state), similarly to the coffee delivery example in the lectures. Include all immediate successor states for each state along the optimal path. For the remaining questions, let the goal be that the agent should be in location 10 and have a charged weapon.
+    \item \textbf{3 points} What is a good admissible heuristic for this planning goal? (Note that this is a domain- dependent heuristic since you take the video game domain into account.) To get full marks, you must also provide an explanation of why your proposed heuristic is good and is admissible.\\ \\ Let’s now consider the domain-independent heuristic “ignore preconditions”, mentioned briefly in the lectures. Recall that for a state n this is defined as the cost of the optimal path from n to a goal using a relaxed problem whose actions have empty preconditions.
+    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 9, cells 3 and 9 free of monsters, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
+    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 8, monsters in both cell 3 and 9, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
+    \item \textbf{2 points} Why is this heuristic not very useful? 
+    \\ \\ Let’s now consider the other domain-independent heuristic discussed in the lectures, namely “ignore delete list”. In order to apply this heuristic, all action preconditions need to be expressed as assignments of binary features to T (positive assertions). If the features you selected in (a) above do not allow you to satisfy this constraint for the actions defined in (b), please define new features accordingly (e.g. you may need to change a feature that expresses the fact that there is a monster in Cell 3 into a feature stating that Cell 3 is free of monsters). You do not need to change your answer to (a); simply give the new features here.
+    \\ If you need to make any such changes, please also give here the new definition of the actions in (b) above based on these new features. \\
+    \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (f)? Also give the optimal plan for the relaxed problem (starting at the state in (f)). Justify your answer
+    \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (e)? Also give the optimal plan for the relaxed problem (starting at the state in (e)). Justify your answer
+    \item \textbf{2 points} Is this heuristic more useful than ignoring preconditions? Why or why not?
+\end{enumerate}
+
+% ################################## QUESTION 2 ##################################
+\clearpage
+\section{Question 2 [38 points]: STRIPS representation}
+The DrinkUp Bartendering school just opened, so it only has two students (Jane and Laura), one small cocktail shaker that can only make one cocktail at a time, and one cocktail glass. Both Jane and Laura need to practice making cocktails that require having a base of shaken Vodka. Jane will use this to make a blue cocktail with Blue Curacao (Blue for short), Laura to make a pink one with Berry Liqueur (Berry for short). The cocktail glass needs to be clean when making a new cocktail. They will only make more shaken vodka base when there is no more left. \\ \\
+Figure 1 shows the STRIPS representation for this problem.
+\centerfig{0.7}{../figs/fig1.png}
+Load the applet at \texttt{http\://aispace.org/strips\_to\_csp/}, and load the file cocktail.xml containing this STRIPS problem.
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{6 points} List the variables/features that define the states in the problem, as well as their domains.
+    \item \textbf{8 points} List the actions in this problem, with their preconditions and effects.
+    \item \textbf{1 point} Convert this STRIPS problem to a CSP planning problem with a horizon of 1. We suggest that you first try to set up the constraints network by yourself, but you can check your solution in the applet by clicking “Solve” and then “Solve with Arc Consistency”. Show a screenshot of the network thus obtained. (Note: if the network appears cramped, you can enlarge the window and then select View->Autoscale to spread it out; you may still need to move around some of the nodes to make it easier to read.)
+    \item \textbf{6 points} Show a screenshot of the truth table representing the constraint Pre\_WashGlass\_0 and explain what the different rows mean. 
+    \item \textbf{6 points} Show a screenshot of the truth table representing the constraint Effect\_PracticedLaura\_1 and explain what the different rows mean (for this part, you only need to report and discuss the rows checked as “true” in the applet)
+    \item \textbf{5 points} Suppose neither Jane nor Laura have practiced making their cocktails. Also suppose that we are in a state with no vodka base, a dirty glass, but we have both Blue Curacao and Berry Liqueur. At what minimum horizon do we need to unroll the CSP if the goal is $PracticedLaura = T$ and $PracticedJane = T$? Give a plan to reach the goal, listing the action(s) taken at each step. \\ \\ Remember that to solve this problem as a CSP you need to define the features you want to hold in your start and goal states; in the AIspace STRIPS to CSP applet, you can do that via "create $\rightarrow$ set start state" and "create $\rightarrow$ set goal state". (You also set the horizon here.) After setting the start and goal state, when you click "solve $\rightarrow$ solve with arc consistency", the resulting CSP will have the desired constraints for start and goal states.
+    \item \textbf{2 points} Explain why the plan you found in part (f) is inconsistent with the problem description given at the beginning of this question. (Note: you may find a bug in one of the constraint tables in this problem. That is not relevant to this question, and you may ignore it.)
+    \item \textbf{2 points} Why does this issue happen with the CSP approach of solving this planning problem, and what can we do to the CSP to fix it?
+\end{enumerate}
+
+% ################################## QUESTION 3 ##################################
+\clearpage
+\section{Question 3 [23 points]: Propositional Definite Clauses - Proof Procedures}
+Consider the following knowledge base KB.
+\centerfig{0.2}{../figs/fig2}
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{5 points} Using the bottom-up proof procedure, list all of the atoms v such that KB $\vdash$ v. Show your work, using the numbers provided above to indicate which clauses are involved in each step of your work.
+    \item \textbf{3 points} Is it true that for all these atoms v, KB $\vDash$ v? Why or why not?
+    \item \textbf{5 points}
+    \begin{enumerate}[label=\roman*.]
+        \item \textbf{3 points} Is it possible to pick an atom that is not a logical consequence of this KB, and give a model of that KB in which this atom is true? If yes, give the model. If no, explain why.
+        \item \textbf{2 points} Provide an interpretation of the KB that is not a model (justify your answer).
+    \end{enumerate}
+    \item \textbf{10 points} Using the top-down resolution proof method, answer if the following queries are logical consequences of KB. If the answer is “yes” show the successful derivation; and if the answer is “no”, show one of the failing derivations.
+    \begin{enumerate}[label=\roman*.]
+        \item \textbf{5 points} ? m $\wedge$ j.
+        \item \textbf{5 points} ? j $\wedge$ w.
+    \end{enumerate}
+\end{enumerate}
+
+% ################################## QUESTION 4 ##################################
+\clearpage
+\section{4 [30 points]: Predicate Logic}
+A priceless diamond, the Orange Ocelot, will be displayed at the Vancouver Jewel Museum. You have been hired to write the software for the security system that will be used to monitor the room holding the diamond for display. If some dastardly jewel thief attempts to steal the diamond, the system alarm must trigger. The system, museum, shown in the figure below, has three sensors:
+\begin{enumerate}
+    \item a “laser" motion sensor, laser
+    \item a broken window sensor, window
+    \item a door lock sensor, door
+\end{enumerate}
+\centerfig{0.7}{../figs/fig3.png}
+The three sensors are wired in one circuit around the room as shown. The door sensor is connected directly to the power. The laser and the window are each preceded by circuit breakers, c1 and c2, which stop the power at that point if the fuse has blown. If they are “ok" the power flows through it to the next sensor. \\ \\
+You will use the Definite Clause Deduction applet available at \texttt{http://www.aispace.org} to implement the system. This will involve writing a short set of axioms to define the problem and running some queries. First, take a look at the sample knowledge base called “An Electrical System" and understand how it works. You can use the “Move Subtree" button to get a better view of the answer to queries. Your program will use some of the same predicates used here to represent the flow of electricity through a set of switches and devices. You should use only (and all of) the following predicates for your system: \\ \\
+\centerfig{0.7}{../figs/fig4.png}
+Test out your system by stating different facts such as door\_open(door) and performing queries such as live(laser) or triggered(door). Remember that uppercase letters denote variables and lowercase denote particular values or instances. Make sure disabling a circuit breaker causes any dependent sensors to fail to trigger an alarm. \\ \\
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{15 points} Implement the system using the Definite Clause applet, and paste the contents of the .pl file you created into your submission.
+    \item \textbf{15 points} Provide a screen capture of the resulting proof deduction tree for the query alarm\_triggered(X) when the power is on, all the circuits are ok and the window is broken. You can get this by clicking on “View Proof Deduction" and then selecting the true node from the tree.
+\end{enumerate}
+
+\end{document}
