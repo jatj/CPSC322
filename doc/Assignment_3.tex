@@ -19,6 +19,7 @@
 \usepackage{enumitem}
 \usepackage[procnames]{listings}
 \usepackage{amssymb}
+\usepackage{multicol}
 
 \def\rubric#1{\gre{Rubric: \{#1\}}}{}
 
@@ -81,20 +82,63 @@
 % ################################## QUESTION 1 ##################################
 
 \section{Question 1 [35 points]: Heuristics in STRIPS: a video game example}
-Assume we want to write an automated planner for a very simple video game: we have a world of 10 different locations, arranged horizontally as shown below. There is a game agent that wants to end up in location 10. \\ \\
-There can be a monster in each of positions 3 and 9, and the agent cannot move to these locations when there is a monster there. The agent has a weapon that is either charged or uncharged, and there are new weapon charges at locations 1 and 4. The following actions are available to the agent: \\
-\begin{enumerate}
-    \item the action “moveRight” increases our agent’s location by 1 (up to 10),
-    \item the action “moveLeft” decreases the location by 1 (down to 1).
-    \item the action “pickUp” allows the agent to pick up a charge if it is at the charge’s location. This will charge the agent’s weapon (whether or not it is already charged) and remove the charge from its location.
-    \item The action “fire” removes every monster whose location differs from the agent’s current location by 1 and completely discharges the agent’s weapon.
-\end{enumerate}
-First, we will write this planning problem in STRIPS notation. STRIPS does not allow us to parameterize actions by the current state because the effects of actions need to be constant, they cannot depend on the agent’s state. Thus we cannot write an action “move-right” parameterized by location, with “Loc = Previous-Loc+1” as an effect. Instead, we have to make actions “move righti”, “move lefti”, “pickupi”, and “firei” for i = 1, ..., 10, with each of these actions only being applicable at location i (similar with what was done for the actions move-clockwise and move-counter-clockwise in the delivery robot examples discussed in class).
+
 \begin{enumerate}[label=(\alph*)]
-    \item \textbf{4 points} Define the STRIPS features (variables) and their domains for this problem. The agent needs to keep track of where it is, whether there are monsters at locations 3 and 9, whether the agent’s weapon is charged, and whether each of the two charges is available. To facilitate answering subquestions (h)-(j) (where you will have to apply the ignore-delete-list heuristics), you should define all your features as Boolean variables; and you should define these boolean variables such that the agent would prefer they be true. Please refer to the explanation provided before subquestion (h) for more information.
-    \item \textbf{8 points} Give the STRIPS representation of the actions for location 4 (“moveRight4”, “moveLeft4”, pickUp4, and fire4).
-    \item \textbf{6 points} Suppose that the agent’s goal is to be in location number 10, and its start state is at location 8, with monsters occupying locations 3 and 9, the weapon charged, and charges in locations 1 and 4. Draw a part of the search space that includes the optimal plan (i.e. the optimal solution path from start state to a goal state), similarly to the coffee delivery example in the lectures. Include all immediate successor states for each state along the optimal path. For the remaining questions, let the goal be that the agent should be in location 10 and have a charged weapon.
-    \item \textbf{3 points} What is a good admissible heuristic for this planning goal? (Note that this is a domain- dependent heuristic since you take the video game domain into account.) To get full marks, you must also provide an explanation of why your proposed heuristic is good and is admissible.\\ \\ Let’s now consider the domain-independent heuristic “ignore preconditions”, mentioned briefly in the lectures. Recall that for a state n this is defined as the cost of the optimal path from n to a goal using a relaxed problem whose actions have empty preconditions.
+    \item \textbf{4 points} Define the STRIPS features (variables) and their domains for this problem. \\
+    
+    \ans{
+    		\begin{multicols}{2}
+                agent\_has\_charge \{T/F\} \\
+                agent\_not\_has\_charge \{T/F\} \\ \\
+                agent\_loc1   \{T/F\} \\
+                agent\_loc2   \{T/F\} \\
+                agent\_loc3   \{T/F\} \\
+                agent\_loc4   \{T/F\} \\
+                agent\_loc5   \{T/F\} \\
+                agent\_loc6   \{T/F\} \\
+                agent\_loc7   \{T/F\} \\
+                agent\_loc8   \{T/F\} \\
+                agent\_loc9   \{T/F\} \\
+                agent\_loc10   \{T/F\} \\ \\
+                agent\_not\_loc1   \{T/F\} \\
+                agent\_not\_loc2   \{T/F\} \\
+                agent\_not\_loc3   \{T/F\} \\
+                agent\_not\_loc4   \{T/F\} \\
+                agent\_not\_loc5   \{T/F\} \\
+                agent\_not\_loc6   \{T/F\} \\
+                agent\_not\_loc7   \{T/F\} \\
+                agent\_not\_loc8   \{T/F\} \\
+                agent\_not\_loc9   \{T/F\} \\
+                agent\_not\_loc10   \{T/F\} \\ \\
+                one\_has\_charge \{T/F\} \\
+                one\_not\_has\_charge \{T/F\} \\ \\
+                four\_has\_charge \{T/F\} \\
+                four\_not\_has\_charge \{T/F\} \\ \\
+                three\_has\_enemy \{T/F\} \\
+                three\_not\_has\_enemy \{T/F\} \\ \\
+                nine\_has\_enemy \{T/F\} \\
+                nine\_not\_has\_enemy \{T/F\} \\ \\
+   		\end{multicols}
+    }  \\
+    
+    \item \textbf{8 points} Give the STRIPS representation of the actions for location 4 (“moveRight4”, “moveLeft4”,
+pickUp4, and fire4). 
+
+\ans{
+        \textbf{moveRight4}\\
+        Preconditions:  agent\_loc\_4 = T\\
+        Effects: agent\_loc\_4 = F,  agent\_not\_loc\_4 = T,   agent\_loc\_5 = T, 					agent\_not\_loc\_5 = F\\\\
+        \textbf{moveLeft4}\\
+        Preconditions:  agent\_loc\_4 = T \\
+        Effects: agent\_loc\_4 = F,  agent\_not\_loc\_4 = T,   agent\_loc\_3 = T, 					agent\_not\_loc\_3 = F\\\\
+        \textbf{pickUp4}\\
+        Preconditions:  agent\_loc\_4 = T, four\_has\_charge = T\\
+        Effects: four\_has\_charge = F, four\_not\_has\_charge = T, 				   						agent\_has\_charge = T \\\\
+        \textbf{fire4}\\
+        Preconditions: agent\_loc\_4 = T, agent\_has\_charge = T \\
+        Effects: agent\_has\_charge = F,  agent\_not\_has\_charge = T, 					  				three\_has\_enemy = F,\\ three\_not\_has\_enemy = T	 \\\\
+    }  \\
+
     \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 9, cells 3 and 9 free of monsters, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
     \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 8, monsters in both cell 3 and 9, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
     \item \textbf{2 points} Why is this heuristic not very useful? 
