@@ -216,16 +216,57 @@ Consider the following knowledge base KB.
 \centerfig{0.2}{../figs/fig2}
 \begin{enumerate}[label=(\alph*)]
     \item \textbf{5 points} Using the bottom-up proof procedure, list all of the atoms v such that KB $\vdash$ v. Show your work, using the numbers provided above to indicate which clauses are involved in each step of your work.
+    
+         \ans{
+          Step 1:  \{ k \}  clause involved: 2 \\
+          Step 2:  \{ k, s \}  clause involved: 11 \\
+          Step 3:  \{ k, s, u \}  clause involved: 13 \\
+          Step 4:  \{ k, s, u, q \}  clause involved: 10 \\
+          Step 5:  \{ k, s, u, q, z \}  clause involved: 7 \\
+          Step 6:  \{ k, s, u, q, z, j \}  clause involved: 1 \\
+          Step 7:  \{ k, s, u, q, z, j, w \}  clause involved: 9 
+      }  \\
+    
     \item \textbf{3 points} Is it true that for all these atoms v, KB $\vDash$ v? Why or why not?
+    
+         \ans{
+          Yes, because the set of atoms v is true in every model of KB
+      }  \\
+    
     \item \textbf{5 points}
     \begin{enumerate}[label=\roman*.]
         \item \textbf{3 points} Is it possible to pick an atom that is not a logical consequence of this KB, and give a model of that KB in which this atom is true? If yes, give the model. If no, explain why.
+        
+        \ans{
+          Yes, atom m is not a logical consequence ans it can be true using the following representation:
+      }  \\
+        
+        
         \item \textbf{2 points} Provide an interpretation of the KB that is not a model (justify your answer).
+        
+                \ans{
+          When every atom in the interpretation is false, then all clauses can't be true.
+      }  \\
+        
     \end{enumerate}
     \item \textbf{10 points} Using the top-down resolution proof method, answer if the following queries are logical consequences of KB. If the answer is “yes” show the successful derivation; and if the answer is “no”, show one of the failing derivations.
     \begin{enumerate}[label=\roman*.]
         \item \textbf{5 points} ? m $\wedge$ j.
+        \ans{
+          It isn´t a logical consequence: \\ \\
+          yes $<-$ m $\wedge$ j. \\
+          yes $<-$ w $\wedge$ q $\wedge$ p $\wedge$ j. \\
+          yes $<-$ u $\wedge$ x $\wedge$ q $\wedge$ p  $\wedge$ j.
+      }  \\
+        
         \item \textbf{5 points} ? j $\wedge$ w.
+        \ans{
+          It is a logical consequence: \\ \\
+          yes $<-$ j $\wedge$ w. \\
+          yes $<-$ q \\
+          yes $<-$ s \\
+          yes $<-$ 
+      }  \\
     \end{enumerate}
 \end{enumerate}
 
