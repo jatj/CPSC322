@@ -139,14 +139,56 @@ pickUp4, and fire4).
         Effects: agent\_has\_charge = F,  agent\_not\_has\_charge = T, 					  				three\_has\_enemy = F,\\ three\_not\_has\_enemy = T	 \\\\
     }  \\
 
-    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 9, cells 3 and 9 free of monsters, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
-    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 8, monsters in both cell 3 and 9, the weapon charged and charges available in location 1 and 4? Represent this state using your features from (a), and justify your answer.
-    \item \textbf{2 points} Why is this heuristic not very useful? 
-    \\ \\ Let’s now consider the other domain-independent heuristic discussed in the lectures, namely “ignore delete list”. In order to apply this heuristic, all action preconditions need to be expressed as assignments of binary features to T (positive assertions). If the features you selected in (a) above do not allow you to satisfy this constraint for the actions defined in (b), please define new features accordingly (e.g. you may need to change a feature that expresses the fact that there is a monster in Cell 3 into a feature stating that Cell 3 is free of monsters). You do not need to change your answer to (a); simply give the new features here.
-    \\ If you need to make any such changes, please also give here the new definition of the actions in (b) above based on these new features. \\
-    \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (f)? Also give the optimal plan for the relaxed problem (starting at the state in (f)). Justify your answer
-    \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (e)? Also give the optimal plan for the relaxed problem (starting at the state in (e)). Justify your answer
-    \item \textbf{2 points} Is this heuristic more useful than ignoring preconditions? Why or why not?
+    \item \textbf{6 points} Draw a part of the search space that includes the optimal plan
+    \centerfig{0.5}{../figs/1-c.png}
+    \item \textbf{3 points} What is a good admissible heuristic for this planning goal? \\
+    \ans{
+        The distance between the agents location and location 10, if the agent´s weapon doesn't have a charge, we will also add the distance to the nearest charging location. This heuristic will not only provides a way to tell if the agent is getting closer to the location, but also takes into account that having a charge is necessary to reach the goal state. It is also admissible because it will always be an underestimate of the real cost
+    }  \\
+    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 9, cells 3 and 9
+free of monsters, the weapon charged and charges available in location 1 and 4? Represent this state using
+your features from (a), and justify your answer. \\ 
+
+\ans{
+        The heuristic in this state would be one. The agent just has to move to location 10 from location 9 to reach the goal state.
+    }  \\
+    \centerfig{0.1}{../figs/1-e.png} \\
+    \item \textbf{2 points} What is the value of this heuristic for the state that has the agent in location 8, monsters in
+both cell 3 and 9, the weapon charged and charges available in location 1 and 4? Represent this state
+using your features from (a), and justify your answer.
+
+\ans{
+        The heuristic in this state would be two. You can just move directly to location 9 ignoring the precondition that location 9 has to be enemy free for the agent to be able to move to it. And after moving to location 9, you can directly move to 10.
+    }  \\
+	\centerfig{0.1}{../figs/1-f.png} \\
+    \item \textbf{2 points} Why is this heuristic not very useful?
+    
+    \ans{
+        Although this heuristic is admissible, it doesn't give us a good estimate. By ignoring all preconditions we oversimplify the problem to a degree that the heuristic does not provide us much information.
+    }  \\
+    
+    \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in  		(f)? Also give the
+	optimal plan for the relaxed problem (starting at the state in (f)). Justify your 		  	  answer
+    
+     \ans{
+         The heuristic in this state would be one. The agent just has to move to location 10 from location 9 to reach the goal state.
+    }  \\
+    \centerfig{0.3}{../figs/1-h.png} \\
+    
+	\item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (e)? Also give the optimal plan for the relaxed problem (starting at the state in (e)). Justify your answer
+    
+         \ans{
+       The heuristic in this state would be three. The agent can fire from location 8 to destroy the enemy on cell 9 and keep it's weapon charged. Then, the agent moves from location 8 to location 9 and finally to location 10.
+    }  \\
+    
+    \centerfig{0.4}{../figs/1-i.png} \\
+    
+	\item \textbf{2 points} Is this heuristic more useful than ignoring preconditions? Why or why not? 
+    
+     \ans{
+        Yes, this heuristic provides us a more realistic simplified version of the problem 
+    }  \\
+    
 \end{enumerate}
 
 % ################################## QUESTION 2 ##################################
