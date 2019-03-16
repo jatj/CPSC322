@@ -399,7 +399,11 @@ You will use the Definite Clause Deduction applet available at \texttt{http://ww
 Test out your system by stating different facts such as door\_open(door) and performing queries such as live(laser) or triggered(door). Remember that uppercase letters denote variables and lowercase denote particular values or instances. Make sure disabling a circuit breaker causes any dependent sensors to fail to trigger an alarm. \\ \\
 \begin{enumerate}[label=(\alph*)]
     \item \textbf{15 points} Implement the system using the Definite Clause applet, and paste the contents of the .pl file you created into your submission.\\
+    \begin{center}
+        \lstinputlisting[firstline=3,lastline=18]{../code/q4.pl} 
+    \end{center}
     \item \textbf{15 points} Provide a screen capture of the resulting proof deduction tree for the query alarm\_triggered(X) when the power is on, all the circuits are ok and the window is broken. You can get this by clicking on “View Proof Deduction" and then selecting the true node from the tree.\\
+    \centerfig{1}{../figs/q4_1.png}
 \end{enumerate}
 
 \end{document}
