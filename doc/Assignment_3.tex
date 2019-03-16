@@ -352,10 +352,28 @@ Consider the following knowledge base KB.
         \item \textbf{3 points} Is it possible to pick an atom that is not a logical consequence of this KB, and give a model of that KB in which this atom is true? If yes, give the model. If no, explain why.\\
         \ans{
             Yes, atom m is not a logical consequence, and it can be true using the following representation:
+            \scriptsize
+            \setlength{\tabcolsep}{10pt}
+            \begin{center}
+            \begin{tabular}{SSSSSSSSSS} \toprule
+                {j} & {k} & {m} & {w} & {p} & {z} & {q} & {s} & {u} & {x} \\ \midrule
+                {T} & {T} & {T} & {T} & {T} & {T} & {T} & {T} & {T} & {T} \\ \bottomrule
+            \end{tabular}
+            \end{center}
+            \normalsize
         }
         \item \textbf{2 points} Provide an interpretation of the KB that is not a model (justify your answer).\\
         \ans{
             Any KB that is not a model, must have at least one clause that is false. In the interpretation provided below, every atom is false, this means that some of the clauses aren't true. An example of this is clause 11.
+            \scriptsize
+            \setlength{\tabcolsep}{10pt}
+            \begin{center}
+            \begin{tabular}{SSSSSSSSSS} \toprule
+                {j} & {k} & {m} & {w} & {p} & {z} & {q} & {s} & {u} & {x} \\ \midrule
+                {F} & {F} & {F} & {F} & {F} & {F} & {F} & {F} & {F} & {F} \\ \bottomrule
+            \end{tabular}
+            \end{center}
+            \normalsize
             % When every atom in the interpretation is false, then all clauses can't be true.
         }
     \end{enumerate}
