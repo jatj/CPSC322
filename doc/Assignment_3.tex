@@ -291,15 +291,40 @@ Load the applet at \texttt{http\://aispace.org/strips\_to\_csp/}, and load the f
     \item \textbf{6 points} Show a screenshot of the truth table representing the constraint Effect\_PracticedLaura\_1 and explain what the different rows mean (for this part, you only need to report and discuss the rows checked as “true” in the applet)\\
     \centerfig{0.6}{../figs/q2_3.png}
     \ans{
-        In the case that PracticedLaura\_s0 was False, then PracticedLaura\_s1 can only be True, if MakeBerry\_s0 
-        is True. Also there is no way PracticedLaura\_s1 is set to False if MakeBerry\_s0 is True. \\ \\
-        Furthermore, there is no way Laura can unpracticed so if PracticedLaura\_s0 
-        was True PracticedLaura\_s1 has to be True, even though MakeBerry\_s0 is False. Similar to the 
-        previouse case, PracticedLaura\_s1 can't be False if PracticedLaura\_s0 is True.
+        In the first case we have everything set to True, and this is correct because PracticedLaura\_s0 
+        was true so it doesn't matter that MakeBerry\_s0 was True, PracticedLaura\_s1 has to be True. \\ \\
+        The second case is similar to the first one, except that PracticedLaura\_s0 is False, but this 
+        doesn't matter because MakeBerry\_s0 = True forces PracticedLaura\_s1 to be True. \\ \\
+        The third case that is true, occurs when PracticedLaura\_s0 was True, then PracticedLaura\_s0 is 
+        also True even if MakeBerry\_s0 is false. \\ \\
+        The last case is when Laura doesn't practice at all, PracticedLaura\_s0 and MakeBerry\_s0 are 
+        False, so PracticedLaura\_s1 has no more option than remain False.
     }
     \item \textbf{5 points} Suppose neither Jane nor Laura have practiced making their cocktails. Also suppose that we are in a state with no vodka base, a dirty glass, but we have both Blue Curacao and Berry Liqueur. At what minimum horizon do we need to unroll the CSP if the goal is $PracticedLaura = T$ and $PracticedJane = T$? Give a plan to reach the goal, listing the action(s) taken at each step. \\ \\ Remember that to solve this problem as a CSP you need to define the features you want to hold in your start and goal states; in the AIspace STRIPS to CSP applet, you can do that via "create $\rightarrow$ set start state" and "create $\rightarrow$ set goal state". (You also set the horizon here.) After setting the start and goal state, when you click "solve $\rightarrow$ solve with arc consistency", the resulting CSP will have the desired constraints for start and goal states.\\
+    \ans{
+        The mininum horizon to reach the solution is 2. We can take the following actions:
+        \begin{enumerate}[label=\arabic{*}.]
+            \item MakeVodkaBase, WashGlass
+            \item MakeBerry, MakeBlue
+        \end{enumerate}
+        The problem allow us to do this, because the actions MakeBerry and MakeBlue do not have 
+        constraints on each other. So even it is imposible to do two different 
+        cocktails with the same clean glass and vodka base, the problem has not the constraints to 
+        manage this so we are able to reach the goal with just two steps.
+    }
     \item \textbf{2 points} Explain why the plan you found in part (f) is inconsistent with the problem description given at the beginning of this question. (Note: you may find a bug in one of the constraint tables in this problem. That is not relevant to this question, and you may ignore it.)\\
+    \ans{
+        It is imposible to do two different cocktails with the same clean glass and vodka base. Furthermore 
+        the problem description says that the DrinkUp Bartendering school has only one small 
+        cocktail shaker that can only make one cocktail at a time. 
+    }
     \item \textbf{2 points} Why does this issue happen with the CSP approach of solving this planning problem, and what can we do to the CSP to fix it?\\
+    \ans{
+        The problem is that the MakeBerry and MakeBlue must have a constraint between them, so  
+        is not allowed to do one cocktail if the other one is being done. This can be fixed by adding 
+        an extra constraint between MakeBerry and MakeBlue on every state, this constraint should 
+        only allow \{ MakeBerry=T,MakeBlue=F \} or \{ MakeBerry=F,MakeBlue=T \} or \{ MakeBerry=F,MakeBlue=F \}
+    }
 \end{enumerate}
 
 % ################################## QUESTION 3 ##################################
