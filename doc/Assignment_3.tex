@@ -105,8 +105,7 @@ sn edges/.style={
     
     \ans{
     		\begin{multicols}{2}
-                agent\_has\_charge \{T/F\} \\
-                agent\_not\_has\_charge \{T/F\} \\ \\
+                agent\_has\_charge \{T/F\} \\ \\
                 agent\_loc1   \{T/F\} \\
                 agent\_loc2   \{T/F\} \\
                 agent\_loc3   \{T/F\} \\
@@ -117,20 +116,8 @@ sn edges/.style={
                 agent\_loc8   \{T/F\} \\
                 agent\_loc9   \{T/F\} \\
                 agent\_loc10   \{T/F\} \\ \\
-                agent\_not\_loc1   \{T/F\} \\
-                agent\_not\_loc2   \{T/F\} \\
-                agent\_not\_loc3   \{T/F\} \\
-                agent\_not\_loc4   \{T/F\} \\
-                agent\_not\_loc5   \{T/F\} \\
-                agent\_not\_loc6   \{T/F\} \\
-                agent\_not\_loc7   \{T/F\} \\
-                agent\_not\_loc8   \{T/F\} \\
-                agent\_not\_loc9   \{T/F\} \\
-                agent\_not\_loc10   \{T/F\} \\ \\
                 one\_has\_charge \{T/F\} \\
-                one\_not\_has\_charge \{T/F\} \\ \\
-                four\_has\_charge \{T/F\} \\
-                four\_not\_has\_charge \{T/F\} \\ \\
+                four\_has\_charge \{T/F\} \\ \\
                 three\_has\_enemy \{T/F\} \\
                 three\_not\_has\_enemy \{T/F\} \\ \\
                 nine\_has\_enemy \{T/F\} \\
@@ -142,22 +129,22 @@ sn edges/.style={
         \textbf{moveRight4:}
         \begin{itemize}
             \item Preconditions:  agent\_loc\_4 = T
-            \item Effects: agent\_loc\_4 = F, agent\_not\_loc\_4 = T, agent\_loc\_5 = T, agent\_not\_loc\_5 = F
+            \item Effects: agent\_loc\_4 = F, agent\_loc\_5 = T
         \end{itemize}
         \textbf{moveLeft4:}
         \begin{itemize}
             \item Preconditions:  agent\_loc\_4 = T, three\_not\_has\_enemy = T
-            \item Effects: agent\_loc\_4 = F,  agent\_not\_loc\_4 = T, agent\_loc\_3 = T, agent\_not\_loc\_3 = F
+            \item Effects: agent\_loc\_4 = F, agent\_loc\_3 = T
         \end{itemize}
         \textbf{pickUp4:}
         \begin{itemize}
             \item Preconditions:  agent\_loc\_4 = T, four\_has\_charge = T 
-            \item Effects: four\_has\_charge = F, four\_not\_has\_charge = T, agent\_has\_charge = T 
+            \item Effects: four\_has\_charge = F, agent\_has\_charge = T 
         \end{itemize}
         \textbf{fire4:}
         \begin{itemize}
             \item Preconditions: agent\_loc\_4 = T, agent\_has\_charge = T  
-            \item Effects: agent\_has\_charge = F, agent\_not\_has\_charge = T, three\_has\_enemy = F,\\ three\_not\_has\_enemy = T, five\_has\_enemy = F, five\_not\_has\_enemy = T		 
+            \item Effects: agent\_has\_charge = F, three\_has\_enemy = F,\\ three\_not\_has\_enemy = T,		 
         \end{itemize}
     }
 
@@ -187,7 +174,7 @@ sn edges/.style={
         % takes into account that having a charge is necessary to reach the goal state. It is also 
         % admissible because it will always be an underestimate of the real cost
         The number of locations plus the number of enemies, between the agent's location and location 10. 
-        This will give us the minimum number of moves and fires actions that the agent has to make to 
+        This will give us the minimum number of moves and fire actions that the agent has to make to 
         reach the goal. Furthermore we can add 1 to the heuristic, if there is at least one enemy 
         between them and the agent doesn't have the weapon charged, so the agent has to do the pickup 
         action to load the weapon and then fire to the enemy that is between him and the goal. 
@@ -214,26 +201,27 @@ sn edges/.style={
     }
     \item \textbf{2 points} Why is this heuristic not very useful?\\
     \ans{
-        Although this heuristic is admissible, and it gives a good estimate of the solution. The calculation 
+        Although this heuristic is admissible, it is a very relaxed version of the problem. In other words the heuristic is too strong. Also, the calculation 
         of this heuristic depends of knowing completely the state of the world. If we are uncertain if there 
-        are enemies or not, the heuristic might become not very informative.
+        are enemies or not, the heuristic might not be very informative.
     }
     \item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (f)? Also give theoptimal plan for the relaxed problem (starting at the state in (f)). Justify your answer\\
-     \ans{
-         The heuristic in this state would be one. The agent just has to move to location 10 from 
-         location 9 to reach the goal state.
+     
+    \ans{
+       The heuristic in this state would be three. The agent can fire from location 8 to destroy the 
+       enemy on cell 9 and keep it's weapon charged, this is because we ignore effects that set values to false. Then, the agent moves from location 8 to location 
+       9 and finally to location 10.
     } \\
     \centerfig{0.75}{../figs/1-h.png}
 	\item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (e)? Also give the optimal plan for the relaxed problem (starting at the state in (e)). Justify your answer\\
         \ans{
-       The heuristic in this state would be three. The agent can fire from location 8 to destroy the 
-       enemy on cell 9 and keep it's weapon charged. Then, the agent moves from location 8 to location 
-       9 and finally to location 10.
+         The heuristic in this state would be one. The agent just has to move to location 10 from 
+         location 9 to reach the goal state.
     } \\
     \centerfig{0.75}{../figs/1-i.png}
 	\item \textbf{2 points} Is this heuristic more useful than ignoring preconditions? Why or why not? \\
      \ans{
-        Yes, this heuristic provides us a more realistic simplified version of the problem 
+        Yes, this heuristic provides us a more realistic simplified version of the problem. It is not as oversimplified as ignoring preconditions so it gives us a better estimate while being fast enough for us to calculate.
     }
     
 \end{enumerate}
