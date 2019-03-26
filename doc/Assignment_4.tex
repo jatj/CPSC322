@@ -212,13 +212,13 @@ sn edges/.style={
        enemy on cell 9 and keep it's weapon charged, this is because we ignore effects that set values to false. Then, the agent moves from location 8 to location 
        9 and finally to location 10.
     } \\
-    \centerfig{0.75}{../figs/1-h.png}
+    % \centerfig{0.75}{../figs/1-h.png}
 	\item \textbf{3 points} What is the value of the ignore-delete-list heuristic for the state in (e)? Also give the optimal plan for the relaxed problem (starting at the state in (e)). Justify your answer\\
         \ans{
          The heuristic in this state would be one. The agent just has to move to location 10 from 
          location 9 to reach the goal state.
     } \\
-    \centerfig{0.75}{../figs/1-i.png}
+    % \centerfig{0.75}{../figs/1-i.png}
 	\item \textbf{2 points} Is this heuristic more useful than ignoring preconditions? Why or why not? \\
      \ans{
         Yes, this heuristic provides us a more realistic simplified version of the problem. It is not as oversimplified as ignoring preconditions so it gives us a better estimate while being fast enough for us to calculate.
@@ -231,7 +231,7 @@ sn edges/.style={
 \section{Question 2 [38 points]: STRIPS representation}
 The DrinkUp Bartendering school just opened, so it only has two students (Jane and Laura), one small cocktail shaker that can only make one cocktail at a time, and one cocktail glass. Both Jane and Laura need to practice making cocktails that require having a base of shaken Vodka. Jane will use this to make a blue cocktail with Blue Curacao (Blue for short), Laura to make a pink one with Berry Liqueur (Berry for short). The cocktail glass needs to be clean when making a new cocktail. They will only make more shaken vodka base when there is no more left. \\ \\
 Figure 1 shows the STRIPS representation for this problem.
-\centerfig{1}{../figs/fig1.png}
+% \centerfig{1}{../figs/fig1.png}
 Load the applet at \texttt{http\://aispace.org/strips\_to\_csp/}, and load the file cocktail.xml containing this STRIPS problem.
 \begin{enumerate}[label=(\alph*)]
     \item \textbf{6 points} List the variables/features that define the states in the problem, as well as their domains.\\
@@ -269,16 +269,16 @@ Load the applet at \texttt{http\://aispace.org/strips\_to\_csp/}, and load the f
         \end{itemize}
     }
     \item \textbf{1 point} Convert this STRIPS problem to a CSP planning problem with a horizon of 1. We suggest that you first try to set up the constraints network by yourself, but you can check your solution in the applet by clicking “Solve” and then “Solve with Arc Consistency”. Show a screenshot of the network thus obtained. (Note: if the network appears cramped, you can enlarge the window and then select View->Autoscale to spread it out; you may still need to move around some of the nodes to make it easier to read.)\\
-    \centerfig{1}{../figs/q2_1.png}
+    % \centerfig{1}{../figs/q2_1.png}
     \item \textbf{6 points} Show a screenshot of the truth table representing the constraint Pre\_WashGlass\_0 and explain what the different rows mean. \\
-    \centerfig{0.6}{../figs/q2_2.png}
+    % \centerfig{0.6}{../figs/q2_2.png}
     \ans{
         The first row, with CleanGlass\_s0 = T and WashGlass\_s0 = T has a value of false in the 
         constraint, this is because you can't wash a glass that is already clean. You can only wash it 
         when is not clean, or not wash it at all this is represented by the next rows being set to true.
     }
     \item \textbf{6 points} Show a screenshot of the truth table representing the constraint Effect\_PracticedLaura\_1 and explain what the different rows mean (for this part, you only need to report and discuss the rows checked as “true” in the applet)\\
-    \centerfig{0.6}{../figs/q2_3.png}
+    % \centerfig{0.6}{../figs/q2_3.png}
     \ans{
         In the first case we have everything set to True, and this is correct because PracticedLaura\_s0 
         was true so it doesn't matter that MakeBerry\_s0 was True, PracticedLaura\_s1 has to be True. \\ \\
@@ -320,7 +320,7 @@ Load the applet at \texttt{http\://aispace.org/strips\_to\_csp/}, and load the f
 \clearpage
 \section{Question 3 [23 points]: Propositional Definite Clauses - Proof Procedures}
 Consider the following knowledge base KB.
-\centerfig{0.2}{../figs/fig2}
+% \centerfig{0.2}{../figs/fig2}
 \begin{enumerate}[label=(\alph*)]
     \item \textbf{5 points} Using the bottom-up proof procedure, list all of the atoms v such that KB $\vdash$ v. Show your work, using the numbers provided above to indicate which clauses are involved in each step of your work.\\
         \ans{
@@ -399,18 +399,18 @@ A priceless diamond, the Orange Ocelot, will be displayed at the Vancouver Jewel
     \item a broken window sensor, window
     \item a door lock sensor, door
 \end{enumerate}
-\centerfig{0.7}{../figs/fig3.png}
+% \centerfig{0.7}{../figs/fig3.png}
 The three sensors are wired in one circuit around the room as shown. The door sensor is connected directly to the power. The laser and the window are each preceded by circuit breakers, c1 and c2, which stop the power at that point if the fuse has blown. If they are “ok" the power flows through it to the next sensor. \\ \\
 You will use the Definite Clause Deduction applet available at \texttt{http://www.aispace.org} to implement the system. This will involve writing a short set of axioms to define the problem and running some queries. First, take a look at the sample knowledge base called “An Electrical System" and understand how it works. You can use the “Move Subtree" button to get a better view of the answer to queries. Your program will use some of the same predicates used here to represent the flow of electricity through a set of switches and devices. You should use only (and all of) the following predicates for your system: \\ \\
-\centerfig{0.7}{../figs/fig4.png}
+% \centerfig{0.7}{../figs/fig4.png}
 Test out your system by stating different facts such as door\_open(door) and performing queries such as live(laser) or triggered(door). Remember that uppercase letters denote variables and lowercase denote particular values or instances. Make sure disabling a circuit breaker causes any dependent sensors to fail to trigger an alarm. \\ \\
 \begin{enumerate}[label=(\alph*)]
     \item \textbf{15 points} Implement the system using the Definite Clause applet, and paste the contents of the .pl file you created into your submission.\\
     \begin{center}
-        \lstinputlisting[firstline=3,lastline=18]{../code/q4.pl} 
+        % \lstinputlisting[firstline=3,lastline=18]{../code/q4.pl} 
     \end{center}
     \item \textbf{15 points} Provide a screen capture of the resulting proof deduction tree for the query alarm\_triggered(X) when the power is on, all the circuits are ok and the window is broken. You can get this by clicking on “View Proof Deduction" and then selecting the true node from the tree.\\
-    \centerfig{1}{../figs/q4_1.png}
+    % \centerfig{1}{../figs/q4_1.png}
 \end{enumerate}
 
 \end{document}
