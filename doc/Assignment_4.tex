@@ -107,7 +107,7 @@ Consider the above joint probability distribution over the three random variable
         If we add the probabilities of all the rows, it must sum to 1, but instead it sums to 1.4. 
         Assuming that the table only contains one incorrect value, the incorrect probability should have 
         a value of 0.4, to make the table valid. \\ \\
-        Thus we can fix the table by setting the probability of (A$\bar{\text{B}}$C)
+        Thus we can fix the table by setting the probability of (A$\bar{\text{B}}$C) to 0
     } 
     \item \textbf{8 points} With the joint resulting from the previous question (after you fixed the error), compute the marginal probability distributions for P(A) and P(B). Are A and B independent? Also, what is the value of P(A=T $|$ B=F)?  \\
     \ans{
@@ -116,7 +116,7 @@ Consider the above joint probability distribution over the three random variable
             P(B) = 0.1 + 0.1 + 0.1 + 0.2 = 0.5 \\
             P(A$|$B) = P(A, B)/P(B) = (0.1+0.1)/0.5 = 0.4 \\
         \end{center}
-        From the calculations above, we can notice that P(A) != P(A|B), this imply that A and B 
+        From the calculations above, we can notice that P(A) != P(A$|$B), this imply that A and B 
         are not independent. \\
         \begin{center}
             P(A$|$$\bar{\text{B}}$) = P(A and $\bar{\text{B}}$)/P($\bar{\text{B}}$) = (0+0.3)/0.5 = 0.6 \\
@@ -194,8 +194,70 @@ Consider a probabilistic problem that can be represented by the simple Bayesian 
 Carry out variable elimination (VE) on this network to compute P(S|Q=F). \\
 \begin{enumerate}[label=\arabic*.]
     \item \textbf{10 marks} indicate which nodes can be pruned (justifying each pruning step), and list the factors (with their values) that VE needs to initially create.
-    \item \textbf{5 marks} Assuming that the elimination ordering is alphabetical, show how the factors and the summations should be ordered.
+    \ans{
+        \begin{enumerate}[label=\arabic*.]
+            \item M can be pruned because it is an unobserved leaf
+            \item X can be pruned because it is an unobserved leaf
+            \item Z can be pruned because it is an unobserved leaf
+            \item W can be pruned because it is conditionally independent from the query
+            \item V can now be pruned because it is an unobserved leaf
+        \end{enumerate}
+    }
+    \item \textbf{5 marks} Assuming that the elimination ordering is alphabetical, show how the factors and the summations should be ordered. \\
+    \ans{
+        \[ \sum_U f_7(U,S) \sum_R f_4(R,U) \sum_O f_0(O) f_2(O,R) \sum_N f_1(O,N) f_6(N,R)\]
+    }
     \item \textbf{15 marks} step through VE, showing what operations are performed, the resulting intermediate factors (with their values) and how P(S|Q=F) is finally computed (hint: see the example we traced in class and the factor operations we covered in the slides).
+    \ans{
+        \begin{enumerate}[label=\arabic*.]
+            \item Compute intermediate result for $N$, $f_8'(O,N,R)$
+            \item Eliminate $N$, result in: $\sum_U f_7(U,S) \sum_R f_4(R,U) \sum_O f_0(O) f_2(O,R) f_8(O,R)$
+            \[
+                f_8(O,R) = \mat{
+                    \text{O} & \text{R} & \text{Val} \\
+                    \text{T} & \text{T} & 0.87 \\
+                    \text{T} & \text{F} & 0.74 \\
+                    \text{F} & \text{T} & 0.76 \\
+                    \text{F} & \text{F} & 0.66 \\
+                }
+            \]
+            \item Compute intermediate result for $O$, $f_9'(O,R)$
+            \item Eliminate $O$, result in: $\sum_U f_7(U,S) \sum_R f_4(R,U) f_9(R)$
+            \[
+                f_9(R) = \mat{
+                    \text{R} & \text{Val} \\
+                    \text{T} & 0.4794 \\
+                    \text{F} & 0.3062 \\
+                }
+            \]
+            \item Compute intermediate result for $R$, $f_{10}'(R,U)$
+            \item Eliminate $R$, result in: $\sum_U f_7(U,S) f_{10}(U)$
+            \[
+                f_{10}(U) = \mat{
+                    \text{U} & \text{Val} \\
+                    \text{T} & 0.4194 \\
+                    \text{F} & 0.3661 \\
+                }
+            \]
+            \item Compute intermediate result for $U$, $f_{11}'(U,S)$
+            \item Eliminate $U$, result in: $f_{11}(S)$
+            \[
+                f_{11}(S) = \mat{
+                    \text{S} & \text{Val} \\
+                    \text{T} & 0.4241 \\
+                    \text{F} & 0.3614 \\
+                }
+            \]
+            \item Normalize $f_{11}(S)$
+            \[
+                f_{11}(S) = \mat{
+                    \text{S} & \text{Val} \\
+                    \text{T} & 0.54 \\
+                    \text{F} & 0.46 \\
+                }
+            \]
+        \end{enumerate}
+    }
 \end{enumerate}
 
 \end{document}
