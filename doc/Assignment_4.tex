@@ -116,7 +116,7 @@ Consider the above joint probability distribution over the three random variable
             P(B) = 0.1 + 0.1 + 0.1 + 0.2 = 0.5 \\
             P(A$|$B) = P(A, B)/P(B) = (0.1+0.1)/0.5 = 0.4 \\
         \end{center}
-        From the calculations above, we can notice that P(A) != P(A$|$B), this imply that A and B 
+        From the calculations above, we can notice that P(A) != P(A$|$B), this means that A and B 
         are not independent. \\
         \begin{center}
             P(A$|$$\bar{\text{B}}$) = P(A and $\bar{\text{B}}$)/P($\bar{\text{B}}$) = (0+0.3)/0.5 = 0.6 \\
@@ -135,11 +135,11 @@ Consider the above joint probability distribution over the three random variable
             P(A) * P(B $|$ A) * P(C $|$ A, B) = 0.5 * 0.4 * 0.5 = 0.1 \\
             P(C) * P(B $|$ C) * P(A $|$ B, C) = 0.3 * 0.66667 * 0.5 = 0.1 \\
         \end{center}
-        The calculation above prove that the given formula where true, but we can also prove this by 
+        The calculation above proves that the given formula is true, but we can also prove this by 
         simplifying the provided formula.
         \begin{center}
             P(A) * P(B $|$ A) * P(C $|$ A, B) = \st{P(A)} * $\frac{\text{\st{P(A, B)}}}{\text{\st{P(A)}}}$ * $\frac{\text{P(C, A, B)}}{\text{\st{P(A, B)}}}$ = P(C, A, B) \\
-            P(C) * P(B $|$ C) * P(A $|$ B, C) = \st{P(C)} * $\frac{\text{\st{P(C, B)}}}{\text{\st{P(C)}}}$ * $\frac{\text{P(A, C, B)}}{\text{\st{P(C, B)}}}$ = P(A, C, B) \\
+            P(C) * P(B $|$ C) * P(A $|$ B, C) = \st{P(C)} * $\frac{\text{\st{P(C, B)}}}{\text{\st{P(C)}}}$ * $\frac{\text{P(A, C, B)}}{\text{\st{P(C, B)}}}$ = P(A, C, B) \\
         \end{center}
         So we can reduce everything to the next clause P(C, A, B) = P(A, B, C), we know that must be true 
         because the intersection of the three variables will always be the same.
@@ -182,9 +182,8 @@ You’ve taken your prized sports car into a repair shop for a routine maintenan
 Consider a probabilistic problem that can be represented by the simple Bayesian Network given below. Let L1 and L2 be Boolean variables, and let C1, C2, and N have 51 possible values each. Compute the representational saving (i.e. how many fewer values you need to store) between this belief network and the joint distribution for this problem. Show your work. \\
 \centerfig{0.4}{../figs/fig2}
 \ans{
-    The joint probability table would need to store 2*2*51*51*51 = 530604 values, which 
-    can be reduced to 5406 by using a noisy or representations. That is a reduction of 
-    525198.
+    The joint probability table would need to store 2*2*51*51*51-1 = 530603 values, which 
+    can be reduced to 10252. Nodes L1 and L2 only need to store one value on their probability table given they are Boolean variables with no parents. N only needs to store 50 values on its table given it has 51 variables and no parents. C1 and C2 need to store 51* 50 * 2 each. This calculations can be obtained using the formula n2\textsuperscript{k} for Boolean variables and nd\textsuperscript{k+1} for non Boolean variables. Adding the values stored for all probability tables gives us 2 + 50 + 10200 = 10252. That is a reduction of 520351.
 }
 
 % ################################## QUESTION 4 ##################################
@@ -203,7 +202,93 @@ Carry out variable elimination (VE) on this network to compute P(S|Q=F). \\
             \item V can now be pruned because it is an unobserved leaf
         \end{enumerate}
     }
-    \item \textbf{5 marks} Assuming that the elimination ordering is alphabetical, show how the factors and the summations should be ordered. \\
+    \ans{
+    		\[
+                f_0(O) = \mat{
+                    \text{O}& \text{Val} \\
+                    \text{T} & 0.7 \\
+                    \text{F} & 0.3 \\
+                }
+            \]
+            \\
+            \[
+                f_1(O,N) = \mat{
+                    \text{O} & \text{N} & \text{Val} \\
+                    \text{T} & \text{T} & 0.7 \\
+                    \text{T} & \text{F} & 0.3 \\
+                    \text{F} & \text{T} & 0.3 \\
+                    \text{F} & \text{F} & 0.7 \\
+                }
+            \]			\\
+            \[
+                f_2(O,R) = \mat{
+                    \text{O} & \text{R} & \text{Val} \\
+                    \text{T} & \text{T} & 0.6 \\
+                    \text{T} & \text{F} & 0.4 \\
+                    \text{F} & \text{T} & 0.5 \\
+                    \text{F} & \text{F} & 0.5 \\
+                }
+            \]
+            \\
+            \[
+                f_3(N,R,Q) = \mat{
+                    \text{N} & \text{R} & \text{Q} &\text{Val} \\
+                    \text{T} & \text{T} & \text{T} & 0.1 \\
+                    \text{T} & \text{T} & \text{F} & 0.9 \\
+                    \text{T} & \text{F} & \text{T} & 0.2 \\
+                    \text{T} & \text{F} & \text{F} & 0.8 \\
+                    \text{F} & \text{T} & \text{T} & 0.3 \\
+                    \text{F} & \text{T} & \text{F} & 0.7 \\
+                    \text{F} & \text{F} & \text{T} & 0.4 \\
+                    \text{F} & \text{F} & \text{F} & 0.6 \\
+                }
+            \]			\\
+            \[
+                f_4(R,U) = \mat{
+                    \text{R} & \text{U} & \text{Val} \\
+                    \text{T} & \text{T} & 0.3 \\
+                    \text{T} & \text{F} & 0.7 \\
+                    \text{F} & \text{T} & 0.9 \\
+                    \text{F} & \text{F} & 0.1 \\
+                }
+            \]
+            \\
+            \[
+                f_5(Q,U,S) = \mat{
+                    \text{Q} & \text{U} & \text{S} &\text{Val} \\
+                    \text{T} & \text{T} & \text{T} & 0.3 \\
+                    \text{T} & \text{T} & \text{F} & 0.7 \\
+                    \text{T} & \text{F} & \text{T} & 0.4 \\
+                    \text{T} & \text{F} & \text{F} & 0.6 \\
+                    \text{F} & \text{T} & \text{T} & 0.4 \\
+                    \text{F} & \text{T} & \text{F} & 0.6 \\
+                    \text{F} & \text{F} & \text{T} & 0.7 \\
+                    \text{F} & \text{F} & \text{F} & 0.3 \\
+                }
+            \]
+            \\
+            \[
+                f_6(N,R) = \mat{
+                    \text{N} & \text{R} & \text{Val} \\
+                    \text{T} & \text{T} & 0.9 \\
+                    \text{T} & \text{F} & 0.8 \\
+                    \text{F} & \text{T} & 0.7 \\
+                    \text{F} & \text{F} & 0.6 \\
+                }
+            \]
+            \\
+            \[
+                f_7(U,S) = \mat{
+                    \text{R} & \text{U} & \text{Val} \\
+                    \text{T} & \text{T} & 0.4 \\
+                    \text{T} & \text{F} & 0.6 \\
+                    \text{F} & \text{T} & 0.7 \\
+                    \text{F} & \text{F} & 0.3 \\
+                }
+            \]
+    }
+    
+    \item \textbf{5 marks} Assuming that the elimination ordering is alphabetical, show how the factors and the summations should be ordered. \\
     \ans{
         \[ \sum_U f_7(U,S) \sum_R f_4(R,U) \sum_O f_0(O) f_2(O,R) \sum_N f_1(O,N) f_6(N,R)\]
     }
